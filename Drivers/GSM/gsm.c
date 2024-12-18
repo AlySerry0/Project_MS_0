@@ -1,5 +1,8 @@
 #include "gsm.h"
 
+// Declare phone_number as a global variable
+char phone_number[14] = "+201018833175";
+
 void setup_gsm() {
     // Initialize UART for GSM module
     uart_init(GSM_UART_ID, GSM_BAUDRATE);
@@ -16,8 +19,7 @@ void setup_gsm() {
 }
 
 void gsm_send_command(const char *command, float sleep_time) {
-
-    //printf("Sending command to GSM module: %s\n", command);
+    // printf("Sending command to GSM module: %s\n", command);
 
     // Send an AT command to the GSM module
     uart_puts(GSM_UART_ID, command);
@@ -32,11 +34,12 @@ void gsm_send_command(const char *command, float sleep_time) {
     while (uart_is_readable_within_us(GSM_UART_ID, 500000) && index < response_size - 1) {
         response[index++] = uart_getc(GSM_UART_ID);
     }
-    response[index] = '\0'; // Null-terminate the response
-    sleep_ms(100); // Wait for the response to complete
+    response[index] = '\0';  // Null-terminate the response
+    sleep_ms(100);           // Wait for the response to complete
 }
 
-void send_sms(const char *phone_number, const char *message) {
+void send_sms(const char *message) {
+    printf("Sending SMS: %s to %s\n", message, phone_number);
     // Set SMS text mode
     gsm_send_command("AT+CMGF=1", 500);
     sleep_ms(500);
@@ -49,7 +52,7 @@ void send_sms(const char *phone_number, const char *message) {
 
     // Send the message body
     uart_puts(GSM_UART_ID, message);
-    uart_putc(GSM_UART_ID, 26); // CTRL+Z to indicate the end of the message
+    uart_putc(GSM_UART_ID, 26);  // CTRL+Z to indicate the end of the message
     sleep_ms(1000);
 }
 
@@ -64,4 +67,10 @@ void read_sms(char *sms) {
 
     // Read the response
     uart_read_blocking(GSM_UART_ID, sms, 256);
+}
+
+void update_number(char *new_number) {
+    printf("Updating phone number to: %s\n", new_number);
+    strcpy(phone_number, new_number);
+    printf("Updated phone number: %s\n", phone_number);
 }

@@ -3,14 +3,14 @@
 
 #include "pico/stdlib.h"
 
-#define LEFT_MOTOR_ENABLE_PIN 2
-#define RIGHT_MOTOR_ENABLE_PIN 3
+#define LEFT_MOTOR_ENABLE_PIN 17
+#define RIGHT_MOTOR_ENABLE_PIN 18
 
-#define LEFT_MOTOR_IN1_PIN 2
-#define LEFT_MOTOR_IN2_PIN 2
+#define LEFT_MOTOR_IN1_PIN 19
+#define LEFT_MOTOR_IN2_PIN 20
 
-#define RIGHT_MOTOR_IN1_PIN 3
-#define RIGHT_MOTOR_IN2_PIN 3
+#define RIGHT_MOTOR_IN1_PIN 21
+#define RIGHT_MOTOR_IN2_PIN 22
 
 // Function prototypes
 void motorInit();
@@ -30,11 +30,5 @@ void enableMotors();
 void disableMotors();
 void coastAll();
 void brakeAll();
-void forward(int time);
-void backward(int time);
-void turnLeft(int time);
-void turnRight(int time);
-void coast(int time);
-void brake(int time);
 
 #endif
